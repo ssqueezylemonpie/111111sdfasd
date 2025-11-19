@@ -4,68 +4,181 @@ body {
   font-family: Arial, sans-serif;
   height: 100%;
 }
+:root {
+  /* Simple color variables - easy to change */
+  --background: #0f1720; /* page background */
+  --panel: #141923;      /* panels like composer */
+  --muted: #9aa4b2;      /* secondary text */
+  --accent: #4f9dff;     /* primary button color */
+}
 
+/* Basic reset */
+* {
+  box-sizing: border-box; /* makes width calculations easier */
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif; /* simple, common fonts */
+  background: var(--background);
+  color: #e6eef6; /* light text on dark background */
+}
+
+/* Layout - mobile first
+   The app stacks vertically on small screens. */
 .app {
   display: flex;
-  height: 100vh;
+  flex-direction: column; /* stack sidebar, channels, chat */
+  height: 100vh; /* full viewport height */
 }
 
-/* Sidebar (servers) */
+/* Simple sidebar row for servers */
 .sidebar {
-  width: 70px;
-  background: #2f3136;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
+  gap: 8px;
+  padding: 8px;
+  background: var(--panel);
 }
-
 .server {
-  width: 50px;
-  height: 50px;
-  background: #36393f;
-  margin: 10px 0;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #0f2a44;
   color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
 }
 
-/* Channel list */
+/* The main area contains channels and chat */
+.main {
+  display: flex;
+  flex-direction: column; /* channels above chat on small screens */
+  flex: 1; /* take remaining space */
+}
+
 .channel-list {
-  width: 200px;
-  background: #25282d;
-  padding: 10px;
-  color: white;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: #1b2430;
+}
+.channel {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+.channel:hover {
+  color: #ffffff;
 }
 
 /* Chat area */
 .chat {
-  flex: 1;
-  background: #36393f;
   display: flex;
   flex-direction: column;
-  color: rgb(255, 255, 255);
+  flex: 1;
+  background: transparent;
+}
+.chat-header {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.chat-title {
+  margin: 0;
+  font-size: 1rem;
 }
 
-.message-container {
-    display: flex;
-    margin-bottom: 10px;
+/* Messages area - scrollable */
+.messages {
+  flex: 1; /* grow */
+  padding: 14px;
+  overflow-y: auto; /* scroll when content is long */
+}
+.sent-message {
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-end; /* show on the right */
+}
+.received-message {
+  margin-bottom: 8px;
+  padding: 10px;
+  background: rgba(255,255,255,0.02);
+  color: #dfe8f2;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-start; /* show on the left */
 }
 
+/* Composer (input row) */
+.composer {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: var(--panel);
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
 #messageInput {
-    flex-grow: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 5px;
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: transparent;
+  color: inherit;
+}
+#messageInput::placeholder {
+  color: var(--muted);
+}
+#sendMessageBtn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: #00121a;
+  cursor: pointer;
+}
+
+/* Simple responsive breakpoint for larger screens
+   On wide screens, show sidebar and channels as columns. */
+@media (min-width: 800px) {
+  .app {
+    flex-direction: row; /* sidebar left, main to the right */
+  }
+  .sidebar {
+    width: 72px;
+    flex-direction: column;
+    padding-top: 12px;
+  }
+  .main {
+    flex-direction: row; /* channel list left, chat right */
+  }
+  .channel-list {
+    width: 220px;
+    flex-direction: column;
+  }
+  .messages {
+    padding: 20px;
+  }
+}
+
+/* Very small phones tweaks */
+@media (max-width: 360px) {
+  .server {
+    width: 34px;
+    height: 34px;
+  }
+  #sendMessageBtn {
+    padding: 9px;
+  }
 }
 
 #sendMessageBtn {
-    padding: 8px 15px;
     background-color: #007bff;
-    color: white;
+    color: rgb(0, 0, 0);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -76,15 +189,13 @@ body {
 }
 
 #messagesDisplay {
-    border: 1px solid #eee;
     padding: 10px;
     min-height: 100px;
-    background-color: #f9f9f9;
     border-radius: 4px;
 }
 
 .sent-message {
-    background-color: #e6ffe6;
+    color: white;
     padding: 5px;
     margin-bottom: 5px;
     border-radius: 3px;

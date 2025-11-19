@@ -8,26 +8,37 @@
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar">
+    <aside class="sidebar" aria-label="Servers">
       <div class="server-list">
-        <div class="server">S1</div>
-        <div class="server">S2</div>
+        <button class="server" aria-label="Server 1">S1</button>
+        <button class="server" aria-label="Server 2">S2</button>
       </div>
     </aside>
-    
-    <aside class="channel-list">
-      <div class="channel">#general</div>
-      <div class="channel">#random</div>
-    </aside>
-    
-    <div class="message-container">
-      <input type="text" id="messageInput" placeholder="Type your message...">
-      <button id="sendMessageBtn">Send Message</button>
-    </div>
 
-    <div id="messagesDisplay"></div>
+    <div class="main">
+      <aside class="channel-list" aria-label="Channels">
+        <div class="channel-list-header">Channels</div>
+        <nav class="channels" role="navigation">
+          <button class="channel" aria-label="General channel"># general</button>
+          <button class="channel" aria-label="Random channel"># random</button>
+        </nav>
+      </aside>
+
+      <section class="chat" aria-label="Chat">
+        <header class="chat-header">
+          <h1 class="chat-title">Mini Discord</h1>
+        </header>
+
+        <div id="messagesDisplay" class="messages" role="log" aria-live="polite"></div>
+
+        <div class="composer">
+          <input type="text" id="messageInput" placeholder="Type your message..." aria-label="Message input">
+          <button id="sendMessageBtn" aria-label="Send message">Send</button>
+        </div>
+      </section>
+    </div>
   </div>
 
-  <script src="/frontend/js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
